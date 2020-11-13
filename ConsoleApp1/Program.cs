@@ -17,7 +17,8 @@ namespace Microsoft.DotNet.Cli
         {
             var parseResult = Parser.Instance.Parse(args);
             Console.WriteLine(parseResult.Diagram());
-            return parseResult.Invoke();
+            Console.WriteLine(string.Join(' ', parseResult.Errors));
+            return 1;
         }
     }
 }

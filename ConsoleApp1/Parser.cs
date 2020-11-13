@@ -16,25 +16,19 @@ namespace Microsoft.DotNet.Cli
             BuildCommandParser.GetCommand()
         };
 
-        static Parser()
-        {
-            ConfigureCommandLine();
-        }
-
-        private static void ConfigureCommandLine()
+        private static Command ConfigureCommandLine(Command rootCommand)
         {
             // Add subcommands
             foreach (var subcommand in Subcommands)
             {
-                RootCommand.AddCommand(subcommand);
+                rootCommand.AddCommand(subcommand);
             }
+
+            return rootCommand;
         }
 
-        public static System.CommandLine.Parsing.Parser Instance { get; } = new CommandLineBuilder(RootCommand)
-            //.UseExceptionHandler(ExceptionHandler)
+        public static System.CommandLine.Parsing.Parser Instance { get; } = new CommandLineBuilder(ConfigureCommandLine(RootCommand))
             .UseHelp()
-            //.UseHelpBuilder(context => new DotnetHelpBuilder(context.Console))
-            //.UseValidationMessages(new CommandLineValidationMessages())
             .Build();
 
     }
